@@ -1,5 +1,7 @@
 import cv2 as cv
 import tkinter as tk
+from tkinter import *
+from tkinter import filedialog
 
 def process_and_show(image_path):
     flarePhoto = cv.imread(image_path)
@@ -21,7 +23,7 @@ def process_and_show(image_path):
 
     # Show image with rectangles
     cv.imshow("Light Sources Detected", flarePhoto)
-    cv.waitKey(10000)
+    cv.waitKey(0)
     cv.destroyAllWindows()
 
 def button1_action():
@@ -33,10 +35,20 @@ def button2_action():
 def button3_action():
     process_and_show("images/four_flares.jpg")
 
+def upload_image():
+    file_path = filedialog.askopenfilename(
+        title="Select an image",
+        filetypes=[("Image Files", "*.jpg *.jpeg *.png *.bmp")]
+    )
+    if file_path:
+        process_and_show(file_path)
+
 # Create main window
 root = tk.Tk()
 root.title("File Path Buttons")
-root.geometry("300x200")
+w = Label(root, text='Pre Packaged Flare Pictures Process Them Now!')
+w.pack()
+root.geometry("300x250")
 
 # Buttons
 btn1 = tk.Button(root, text="C130 processed", command=button1_action, width=20)
@@ -47,5 +59,12 @@ btn2.pack(pady=10)
 
 btn3 = tk.Button(root, text="Other Jet processed", command=button3_action, width=20)
 btn3.pack(pady=10)
+
+w = Label(root, text='Or upload your own to be processed...')
+w.pack()
+
+# Upload button
+btn_upload = tk.Button(root, text="Upload Image", command=upload_image, width=25)
+btn_upload.pack(pady=10)
 
 root.mainloop()
